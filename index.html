@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#11122a">
+  <meta name="description" content="GREVocab — a focused GRE vocabulary app with flash cards, vocabulary quizzes, sentence completion, comprehension practice, and progress tracking.">
+  <title>GREVocab — Master GRE Vocabulary</title>
+  <style>
+    :root{
+      --ink:#11122a;
+      --muted:#676b86;
+      --purple:#5b35c9;
+      --violet:#7c3aed;
+      --pink:#f000c8;
+      --lavender:#efeaff;
+      --line:rgba(17,18,42,.09);
+      --white:#fff;
+      --shadow:0 25px 70px rgba(36,22,91,.16);
+      --radius:28px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--ink);
+      background:#fbfaff;
+      line-height:1.55;
+    }
+    a{text-decoration:none;color:inherit}
+    .container{width:min(1180px,92%);margin:auto}
+    .nav{
+      position:sticky;top:0;z-index:20;
+      backdrop-filter:blur(18px);
+      background:rgba(251,250,255,.78);
+      border-bottom:1px solid rgba(17,18,42,.06);
+    }
+    .nav-inner{height:76px;display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:21px;letter-spacing:-.04em}
+    .brand-mark{
+      width:38px;height:38px;border-radius:12px;
+      background:linear-gradient(135deg,var(--pink),var(--purple));
+      box-shadow:0 8px 22px rgba(109,49,209,.25);
+    }
+    .nav-links{display:flex;gap:28px;color:#50536d;font-weight:650;font-size:14px}
+    .nav-links a:hover{color:var(--purple)}
+    .nav-cta{padding:11px 18px;border-radius:999px;background:var(--ink);color:white;font-weight:750;font-size:14px}
+
+    .hero{
+      position:relative;overflow:hidden;
+      padding:90px 0 80px;
+      background:
+        radial-gradient(circle at 10% 10%,rgba(240,0,200,.14),transparent 30%),
+        radial-gradient(circle at 90% 20%,rgba(91,53,201,.18),transparent 32%),
+        linear-gradient(180deg,#fbfaff 0%,#f2efff 100%);
+    }
+    .hero-grid{display:grid;grid-template-columns:1.02fr .98fr;align-items:center;gap:60px}
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:8px 13px;border-radius:999px;
+      background:#fff;border:1px solid var(--line);
+      box-shadow:0 8px 30px rgba(30,20,80,.06);
+      color:var(--purple);font-size:12px;font-weight:850;letter-spacing:.08em;text-transform:uppercase
+    }
+    .eyebrow span{width:7px;height:7px;border-radius:50%;background:var(--pink)}
+    h1{
+      font-size:clamp(48px,6vw,78px);line-height:.98;
+      letter-spacing:-.065em;margin:23px 0 24px;max-width:720px
+    }
+    .gradient-text{background:linear-gradient(100deg,#ef00c7,#6235d5 70%);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .hero-copy{font-size:19px;color:var(--muted);max-width:610px}
+    .actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:9px;
+      padding:15px 23px;border-radius:15px;font-weight:800;font-size:15px;
+      transition:.2s transform,.2s box-shadow;
+    }
+    .btn:hover{transform:translateY(-2px)}
+    .btn-primary{background:linear-gradient(100deg,var(--pink),var(--purple));color:#fff;box-shadow:0 15px 35px rgba(108,43,211,.25)}
+    .btn-secondary{background:#fff;border:1px solid var(--line)}
+    .trust{display:flex;gap:20px;flex-wrap:wrap;margin-top:27px;color:#777a90;font-size:13px;font-weight:650}
+    .trust b{color:var(--ink)}
+    .hero-visual{position:relative;min-height:640px;display:flex;justify-content:center;align-items:center}
+    .glow{position:absolute;width:470px;height:470px;border-radius:50%;background:radial-gradient(circle,rgba(240,0,200,.18),rgba(91,53,201,.08),transparent 68%);filter:blur(5px)}
+    .phone{
+      width:min(390px,84%);position:relative;z-index:2;
+      filter:drop-shadow(0 35px 35px rgba(26,18,65,.22));
+      transform:rotate(2deg);
+    }
+    .phone img{display:block;width:100%;height:auto;border-radius:42px}
+    .floating{
+      position:absolute;z-index:3;background:rgba(255,255,255,.92);backdrop-filter:blur(14px);
+      border:1px solid rgba(255,255,255,.8);box-shadow:var(--shadow);border-radius:18px;padding:14px 16px;
+      font-size:13px;font-weight:800
+    }
+    .floating.one{right:2%;top:17%}.floating.two{left:1%;bottom:17%}
+    .mini-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#ef00c7;margin-right:7px}
+
+    .section{padding:105px 0}
+    .section-head{text-align:center;max-width:720px;margin:0 auto 55px}
+    .kicker{font-size:12px;text-transform:uppercase;letter-spacing:.14em;font-weight:900;color:var(--purple)}
+    h2{font-size:clamp(34px,4vw,53px);line-height:1.05;letter-spacing:-.055em;margin:12px 0 15px}
+    .section-head p{color:var(--muted);font-size:17px}
+    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .card{
+      padding:28px;border:1px solid var(--line);background:#fff;border-radius:24px;
+      box-shadow:0 12px 45px rgba(31,20,82,.06)
+    }
+    .icon{
+      width:52px;height:52px;border-radius:16px;
+      display:grid;place-items:center;color:white;font-size:22px;font-weight:900;
+      background:linear-gradient(135deg,var(--pink),var(--purple));margin-bottom:20px
+    }
+    .card h3{margin:0 0 8px;font-size:20px;letter-spacing:-.025em}
+    .card p{margin:0;color:var(--muted);font-size:14px}
+
+    .showcase{background:var(--ink);color:white;overflow:hidden}
+    .showcase .section-head p{color:#b8bad0}
+    .showcase-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+    .screens{display:flex;justify-content:center;align-items:flex-end;gap:25px}
+    .screen{
+      width:46%;max-width:330px;border-radius:28px;box-shadow:0 35px 70px rgba(0,0,0,.4);
+      border:6px solid #17182f
+    }
+    .screen:first-child{transform:rotate(-4deg) translateY(20px)}
+    .screen:last-child{transform:rotate(4deg)}
+    .showcase-copy h2{margin-top:10px}
+    .checklist{list-style:none;padding:0;margin:30px 0 0;display:grid;gap:15px}
+    .checklist li{display:flex;gap:12px;align-items:flex-start;color:#d7d8e5}
+    .check{flex:0 0 23px;width:23px;height:23px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--pink),var(--purple));font-size:12px;font-weight:900}
+
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .stat{text-align:center;padding:25px;border:1px solid var(--line);border-radius:22px;background:#fff}
+    .stat strong{display:block;font-size:32px;letter-spacing:-.05em}
+    .stat span{font-size:13px;color:var(--muted)}
+
+    .cta{
+      margin-bottom:90px;border-radius:36px;padding:70px 50px;text-align:center;color:#fff;
+      background:linear-gradient(120deg,#ef00c7 0%,#7b31d3 48%,#3c2c9e 100%);
+      box-shadow:0 35px 80px rgba(93,40,195,.25);position:relative;overflow:hidden
+    }
+    .cta:before{content:"";position:absolute;width:500px;height:500px;border-radius:50%;right:-200px;top:-300px;background:rgba(255,255,255,.13)}
+    .cta h2{position:relative;margin-top:0}
+    .cta p{position:relative;max-width:620px;margin:0 auto 28px;color:rgba(255,255,255,.85)}
+    .cta .btn{position:relative;background:#fff;color:#332183}
+
+    footer{padding:30px 0 50px;color:#777a90;font-size:13px}
+    .footer-inner{display:flex;justify-content:space-between;gap:20px;border-top:1px solid var(--line);padding-top:24px}
+
+    @media(max-width:900px){
+      .nav-links{display:none}
+      .hero-grid,.showcase-grid{grid-template-columns:1fr}
+      .hero{padding-top:65px}
+      .hero-visual{min-height:560px}
+      .features{grid-template-columns:1fr 1fr}
+      .showcase-copy{order:-1}
+      .stats{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:600px){
+      .nav-inner{height:68px}
+      .nav-cta{padding:9px 13px}
+      .hero{padding:52px 0}
+      h1{font-size:49px}
+      .hero-copy{font-size:17px}
+      .hero-visual{min-height:500px}
+      .floating{font-size:11px;padding:10px 11px}
+      .features{grid-template-columns:1fr}
+      .section{padding:75px 0}
+      .screens{gap:10px}
+      .screen{border-width:4px;border-radius:18px}
+      .cta{padding:50px 22px;border-radius:28px;margin-bottom:60px}
+      .footer-inner{flex-direction:column}
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#"><span class="brand-mark"></span>GREVocab</a>
+      <nav class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#app">The App</a>
+        <a href="#practice">Practice</a>
+      </nav>
+      <a class="nav-cta" href="#download">Get the App</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow"><span></span> GRE vocabulary, made focused</div>
+          <h1>Build a vocabulary that <span class="gradient-text">sticks.</span></h1>
+          <p class="hero-copy">
+            GREVocab turns GRE vocabulary practice into a focused daily routine — with flash cards,
+            vocabulary quizzes, sentence completion, comprehension practice, and progress tracking.
+          </p>
+          <div class="actions" id="download">
+            <a class="btn btn-primary" href="#">▶ Get GREVocab</a>
+            <a class="btn btn-secondary" href="#app">Explore the app ↓</a>
+          </div>
+          <div class="trust">
+            <span>✓ <b>GRE-focused</b></span>
+            <span>✓ Practice at your pace</span>
+            <span>✓ Track your progress</span>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="glow"></div>
+          <div class="floating one"><span class="mini-dot"></span>Learn · Practice · Improve</div>
+          <div class="phone"><img src="assets/home-screen.png" alt="GREVocab app home screen"></div>
+          <div class="floating two">Vocabulary Quiz · Accuracy tracking</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <div class="container">
+        <div class="section-head">
+          <div class="kicker">Everything you need</div>
+          <h2>One app. A smarter GRE vocabulary routine.</h2>
+          <p>Designed to make high-quality vocabulary practice simple, repeatable, and engaging.</p>
+        </div>
+        <div class="features">
+          <article class="card"><div class="icon">A</div><h3>Flash Cards</h3><p>Review words quickly and reinforce meaning through focused repetition.</p></article>
+          <article class="card"><div class="icon">✓</div><h3>Vocabulary Quizzes</h3><p>Test your recall with multiple-choice questions and see your accuracy as you practice.</p></article>
+          <article class="card"><div class="icon">⌁</div><h3>Sentence Completion</h3><p>Move beyond memorization and learn how words work in context.</p></article>
+          <article class="card"><div class="icon">▤</div><h3>Comprehension</h3><p>Practice understanding vocabulary in richer passages and real context.</p></article>
+          <article class="card"><div class="icon">≡</div><h3>Word List</h3><p>Keep your vocabulary universe organized and easy to revisit.</p></article>
+          <article class="card"><div class="icon">↗</div><h3>Progress & Score</h3><p>Track performance and turn practice sessions into measurable progress.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section showcase" id="app">
+      <div class="container showcase-grid">
+        <div class="screens">
+          <img class="screen" src="assets/home-screen.png" alt="GREVocab home screen">
+          <img class="screen" src="assets/vocab-quiz.png" alt="GREVocab vocabulary quiz">
+        </div>
+        <div class="showcase-copy">
+          <div class="kicker">Inside GREVocab</div>
+          <h2>A clean experience built around practice.</h2>
+          <p style="color:#b8bad0">
+            Start with the learning mode you want, practice without distractions, and use your
+            results to understand where you stand.
+          </p>
+          <ul class="checklist">
+            <li><span class="check">✓</span><span><b>Fast vocabulary review</b><br>Ideal for short daily study sessions.</span></li>
+            <li><span class="check">✓</span><span><b>Immediate feedback</b><br>See your quiz accuracy while you practice.</span></li>
+            <li><span class="check">✓</span><span><b>Multiple ways to learn</b><br>Switch between words, questions, sentences, and passages.</span></li>
+            <li><span class="check">✓</span><span><b>Simple navigation</b><br>Everything important is available from the home screen.</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="practice">
+      <div class="container">
+        <div class="section-head">
+          <div class="kicker">A complete practice loop</div>
+          <h2>Learn it. Test it. Use it. Remember it.</h2>
+          <p>Build stronger vocabulary by moving from recognition to application.</p>
+        </div>
+        <div class="stats">
+          <div class="stat"><strong>01</strong><span>Learn with Flash Cards</span></div>
+          <div class="stat"><strong>02</strong><span>Test with Quizzes</span></div>
+          <div class="stat"><strong>03</strong><span>Apply in Context</span></div>
+          <div class="stat"><strong>04</strong><span>Track Your Progress</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container" style="padding-top:0">
+      <div class="cta">
+        <h2>Make every study session count.</h2>
+        <p>
+          Whether you have 10 minutes or an hour, GREVocab gives you a focused way to strengthen
+          the vocabulary skills you need for the GRE.
+        </p>
+        <a class="btn" href="#">Get GREVocab on Android →</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div><strong>GREVocab</strong> — focused GRE vocabulary practice.</div>
+      <div>© 2026 GREVocab. All rights reserved.</div>
+    </div>
+  </footer>
+</body>
+</html>
